@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+    font-family: "Red Hat Text", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400, 600, 700;
+    font-style: normal;
+}
+
+img {
+    max-width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: hsl(13, 31%, 94%);
+}
+
+#modal {
+    width: 100%;
+}
+
+dialog::backdrop {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .grid-container {
+        display: grid;
+        gap: 2em;
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .items-grid {
+        display: grid;
+        gap: 1em;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 768px ) and (max-width: 1024px){
+    .items-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
