@@ -1,18 +1,26 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import CartItem from "./CartItem";
 import ConfirmOrder from "./ConfirmOrder";
 import EmptyCard from "./EmptyCard"
 
 import { LuLeafyGreen } from "react-icons/lu";
+import { itemsContext } from "../../store/itemContext";
 
 
-const Cart = ({ selectedCartItems, totalPrice, deleteItem, resetCart }) => {
+const Cart = () => {
+    const {
+        selectedItems,
+        totalPrice,
+        resetCart
+    }= useContext(itemsContext)
+
+
     const modal = useRef()
 
-    const isCartEmpty = selectedCartItems.length === 0
-    const quantity = selectedCartItems.reduce((acc, currenItem) => acc + currenItem.quantity, 0)
+    const isCartEmpty = selectedItems.length === 0
+    const quantity = selectedItems.reduce((acc, currenItem) => acc + currenItem.quantity, 0)
 
-    const items = selectedCartItems.map(item => <CartItem key={Math.random()} cartItem={item} deleteItem={deleteItem}/>)
+    const items = selectedItems.map(item => <CartItem key={Math.random()} cartItem={item} />)
 
     const handleOpenModal = () => {
         modal.current.open()
@@ -25,12 +33,7 @@ const Cart = ({ selectedCartItems, totalPrice, deleteItem, resetCart }) => {
     
     return (
         <>
-            {!isCartEmpty && <ConfirmOrder 
-                ref={modal}
-                resetCart={handleResetCart}
-                selectedCartItems={selectedCartItems}
-                totalPrice={totalPrice}
-            />}
+            {!isCartEmpty && <ConfirmOrder ref={modal} resetCart={handleResetCart}/>}
             <div className="bg-rose50 mb-6 p-6 w-full rounded">
                 <h2 className="text-[2rem] font-semibold text-rose500">Your cart ({quantity})</h2>
                 { isCartEmpty && <EmptyCard />}

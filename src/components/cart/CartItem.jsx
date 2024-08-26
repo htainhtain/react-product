@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { RxCrossCircled } from "react-icons/rx";
+import { itemsContext } from "../../store/itemContext";
 
-const CartItem = ({ cartItem, deleteItem }) => {
-    const deleteItemFromCart = () => {
-        deleteItem({"name": cartItem.name})
+const CartItem = ({ cartItem }) => {
+    const { deleteItemFromCart } = useContext(itemsContext)
+    
+    const deleteItem = () => {
+        deleteItemFromCart({"name": cartItem.name})
     }
 
     return (
@@ -17,7 +21,7 @@ const CartItem = ({ cartItem, deleteItem }) => {
                     </p>
                 </div>
                 <RxCrossCircled 
-                    onClick={deleteItemFromCart}
+                    onClick={deleteItem}
                     className='text-[1.5rem]'
                 />
             </div>

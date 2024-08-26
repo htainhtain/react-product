@@ -1,10 +1,12 @@
 import { CiCircleCheck } from "react-icons/ci";
 
 import { createPortal } from "react-dom"
-import { forwardRef, useImperativeHandle, useRef } from "react"
+import { forwardRef, useContext, useImperativeHandle, useRef } from "react"
 import ConfirmOrderItem from "./ConfirmOrderItem";
+import { itemsContext } from "../../store/itemContext";
 
-const ConfirmOrder = forwardRef(({selectedCartItems, totalPrice, resetCart}, ref) => {
+const ConfirmOrder = forwardRef(({resetCart}, ref) => {
+    const {selectedItems, totalPrice} = useContext(itemsContext)
     const dialog  = useRef()
 
     useImperativeHandle(ref, () => {
@@ -26,7 +28,7 @@ const ConfirmOrder = forwardRef(({selectedCartItems, totalPrice, resetCart}, ref
                 <p className='mt-2 text-rose500'>We hope you enjoy your food</p>
                 <div className='px-5 py-5 bg-rose100 rounded-lg my-[2em]'>
                     {
-                        selectedCartItems.map(item => <ConfirmOrderItem 
+                        selectedItems.map(item => <ConfirmOrderItem 
                             key={item.name}
                             item={item}
                         />)

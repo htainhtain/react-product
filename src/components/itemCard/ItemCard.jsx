@@ -1,17 +1,21 @@
 import { MdAddShoppingCart } from 'react-icons/md'
 import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
+import { useContext } from 'react';
+import { itemsContext } from '../../store/itemContext';
 
 const ItemCard = ({
         name, 
         category, 
         price, 
         image, 
-        addToCart, 
         quantity,
-        increment,
-        decrement
     }) => {
+
+    const {    
+        addToCart,
+        incrementQuantity,
+        decrementQuantity }   = useContext(itemsContext)
     const isSelected = quantity > 0
 
     const handleAdd = () => {
@@ -20,12 +24,12 @@ const ItemCard = ({
         })
     }
 
-    const incrementQuantity = () => {
-        increment({"name": name})
+    const increment = () => {
+        incrementQuantity({"name": name})
     }
 
-    const decrementQuantity = () => {
-        decrement({"name": name})
+    const decrement = () => {
+        decrementQuantity({"name": name})
     }
 
     let imgClass = "w-full w-[80%] rounded-xl"
@@ -38,9 +42,9 @@ const ItemCard = ({
     </button> 
 
     const selectedButton = <button className='border-rose300 text-white bg-red border-solid border-2 rounded-full px-2 py-3 mx-auto flex items-center justify-between gap-2'> 
-        <span className='text-[1.3rem]' onClick={incrementQuantity}><CiCirclePlus /></span>
+        <span className='text-[1.3rem]' onClick={increment}><CiCirclePlus /></span>
         <span className='mx-[2.5em]'>{quantity}</span>
-        <span className='text-[1.3rem]' onClick={decrementQuantity}><CiCircleMinus /></span>
+        <span className='text-[1.3rem]' onClick={decrement}><CiCircleMinus /></span>
     </button>
 
     const button = isSelected ? selectedButton : unselectedButton
