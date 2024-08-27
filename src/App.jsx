@@ -1,11 +1,10 @@
 import Cart from './components/cart/Cart';
 import ItemCard from './components/itemCard/ItemCard';
 
-import { useContext } from 'react';
-import { itemsContext } from './store/itemContext.jsx';
+import { useSelector } from 'react-redux';
 
 function App() {
-  const { allItems } = useContext(itemsContext)
+  const allItems = useSelector(state => state.item.allItems)
 
   return (
     <section id='product' className='py-[4rem]'>

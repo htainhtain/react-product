@@ -1,12 +1,11 @@
-import { useContext } from "react";
 import { RxCrossCircled } from "react-icons/rx";
-import { itemsContext } from "../../store/itemContext";
+import { deleteItemFromCart } from "../../store/itemSlice";
+import { useDispatch } from "react-redux";
 
 const CartItem = ({ cartItem }) => {
-    const { deleteItemFromCart } = useContext(itemsContext)
-    
+    const dispatch = useDispatch()
     const deleteItem = () => {
-        deleteItemFromCart({"name": cartItem.name})
+        dispatch(deleteItemFromCart({"name": cartItem.name}))
     }
 
     return (

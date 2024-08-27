@@ -1,12 +1,13 @@
 import { CiCircleCheck } from "react-icons/ci";
 
 import { createPortal } from "react-dom"
-import { forwardRef, useContext, useImperativeHandle, useRef } from "react"
+import { forwardRef, useImperativeHandle, useRef } from "react"
 import ConfirmOrderItem from "./ConfirmOrderItem";
-import { itemsContext } from "../../store/itemContext";
+import { useSelector } from "react-redux";
 
 const ConfirmOrder = forwardRef(({resetCart}, ref) => {
-    const {selectedItems, totalPrice} = useContext(itemsContext)
+    const selectedItems = useSelector(state => state.item.selectedItems)
+    const totalPrice = useSelector(state => state.item.totalPrice)
     const dialog  = useRef()
 
     useImperativeHandle(ref, () => {

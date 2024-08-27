@@ -1,8 +1,8 @@
 import { MdAddShoppingCart } from 'react-icons/md'
 import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
-import { useContext } from 'react';
-import { itemsContext } from '../../store/itemContext';
+import { useDispatch } from 'react-redux';
+import { addToCart, incrementQuantity, decrementQuantity } from '../../store/itemSlice';
 
 const ItemCard = ({
         name, 
@@ -12,24 +12,19 @@ const ItemCard = ({
         quantity,
     }) => {
 
-    const {    
-        addToCart,
-        incrementQuantity,
-        decrementQuantity }   = useContext(itemsContext)
+    const dispatch = useDispatch()
     const isSelected = quantity > 0
 
     const handleAdd = () => {
-        addToCart({
-            "name": name,
-        })
+        dispatch(addToCart({"name": name}))
     }
 
     const increment = () => {
-        incrementQuantity({"name": name})
+        dispatch(incrementQuantity({"name": name}))
     }
 
     const decrement = () => {
-        decrementQuantity({"name": name})
+        dispatch(decrementQuantity({"name": name}))
     }
 
     let imgClass = "w-full w-[80%] rounded-xl"

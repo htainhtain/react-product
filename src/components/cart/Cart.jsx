@@ -1,19 +1,16 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import CartItem from "./CartItem";
 import ConfirmOrder from "./ConfirmOrder";
 import EmptyCard from "./EmptyCard"
-
 import { LuLeafyGreen } from "react-icons/lu";
-import { itemsContext } from "../../store/itemContext";
+import { useDispatch, useSelector } from "react-redux";
+import { resetCart } from "../../store/itemSlice";
 
 
 const Cart = () => {
-    const {
-        selectedItems,
-        totalPrice,
-        resetCart
-    }= useContext(itemsContext)
-
+    const totalPrice = useSelector(state => state.item.totalPrice)
+    const selectedItems = useSelector(state => state.item.selectedItems)
+    const dispatch = useDispatch()
 
     const modal = useRef()
 
@@ -27,7 +24,7 @@ const Cart = () => {
     }
 
     const handleResetCart = () => {
-        resetCart()
+        dispatch(resetCart())
         modal.current.close()
     }
     
