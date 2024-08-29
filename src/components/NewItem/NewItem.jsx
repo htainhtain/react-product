@@ -2,7 +2,7 @@ import { forwardRef, useRef } from "react";
 import Dialog from "../Dialog/Dialog";
 import Input from "../Input/Input";
 import { useDispatch } from "react-redux";
-import { addNewItem } from "../../store/itemSlice";
+import { createItem } from "../../store/itemSlice";
 
 const NewItem = forwardRef(({}, ref) => {
     const dispatch = useDispatch()
@@ -19,15 +19,24 @@ const NewItem = forwardRef(({}, ref) => {
     const handleSubmitForm = (e) => {
         e.preventDefault()
         const newItem = {
-            "thumbnail": imgThumbnailRef.current.value,
-            "mobile": imgMobileRef.current.value,
-            "tablet": imgTabletRef.current.value,
-            "desktop": imgDesktopRef.current.value,
+            "image": {
+                "thumbnail": imgThumbnailRef.current.value,
+                "mobile": imgMobileRef.current.value,
+                "tablet": imgTabletRef.current.value,
+                "desktop": imgDesktopRef.current.value,
+            },
             "name": nameRef.current.value,
             "category": categoryRef.current.value,
             "price": +priceRef.current.value
         }
-        dispatch(addNewItem(newItem))
+        dispatch(createItem(newItem))
+        imgThumbnailRef.current.value = ""
+        imgMobileRef.current.value = ""
+        imgTabletRef.current.value = ""
+        imgDesktopRef.current.value = ""
+        nameRef.current.value = ""
+        categoryRef.current.value = ""
+        priceRef.current.value = ""
         ref.current.close()
     }
 

@@ -2,7 +2,7 @@ import { forwardRef, useRef, useState } from "react";
 import Dialog from "../Dialog/Dialog";
 import Input from "./Input";
 import { useDispatch } from "react-redux";
-import { editItem } from "../../store/itemSlice";
+import { updateItem } from "../../store/itemSlice";
 
 const EditItem = forwardRef(({
     id,
@@ -14,7 +14,6 @@ const EditItem = forwardRef(({
     const dispatch = useDispatch()
 
     const [formData, setFormData] = useState({
-        id,
         name,
         category,
         price,
@@ -50,15 +49,14 @@ const EditItem = forwardRef(({
                     nextState.image.thumbnail = value
                     break
             }
+            console.log("nextState: ", nextState)
             return nextState
         })
     }
 
     const handleSubmitForm = (e) => {
         e.preventDefault()
-        dispatch(editItem({
-            item: formData
-        }))
+        dispatch(updateItem(id, formData))
         ref.current.close()
     }
 

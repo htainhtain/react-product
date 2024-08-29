@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import data from '../data.js'
+import axios from 'axios'
 
 const initialState = {
-    allItems: data,
+    allItems: [],
     selectedItems: [],
     totalPrice: 0,
 }
@@ -61,58 +61,63 @@ const itemSlice = createSlice({
             state.totalPrice = totalPrice        
         },
         resetCart: () => initialState,
-        addNewItem: (state, action) => {
-            const payload = action.payload
-            const newItem = {
-                "image": {
-                    "thumbnail": payload.thumbnail,
-                    "mobile": payload.mobile,
-                    "tablet": payload.tablet,
-                    "desktop": payload.desktop
-                },
-               "name": payload.name,
-               "category": payload.category,
-               "price": payload.price,
-               "quantity": 0,
-               "id": state.allItems[state.allItems.length - 1] ? state.allItems[state.allItems.length - 1].id++ : 1
-            }
-
-            state.allItems.push(newItem)
-        },
-        deleteItemFromItems: (state, action) => {
-            state.allItems = state.allItems.filter(item => item.id !== action.payload.id)
-            const [newSelectedItems, totalPrice] = getNewSelectedItemsAndTotalPrice(state.allItems)
-            state.selectedItems = newSelectedItems
-            state.totalPrice = totalPrice 
-        },
-        editItem: (state, action) => {
-            state.allItems = state.allItems.map(item => {
-                if (item.id === action.payload.item.id) {
-                    console.log("action.payload.item: ", action.payload.item)
-                    let editedItem = {
-                        "image": {
-                            "thumbnail": action.payload.item.image.thumbnail,
-                            "mobile": action.payload.item.image.mobile,
-                            "tablet": action.payload.item.image.tablet,
-                            "desktop": action.payload.item.image.desktop
-                        },
-                        "name": action.payload.item.name,
-                        "category": action.payload.item.category,
-                        "price": action.payload.item.price,
-                        "quantity": item.quantity,
-                        "id": item.id,
-                    }
-                    return editedItem
-                } else {
-                    return item
-                }
-            })
-            const [newSelectedItems, totalPrice] = getNewSelectedItemsAndTotalPrice(state.allItems)
-            state.selectedItems = newSelectedItems
-            state.totalPrice = totalPrice 
+        getItems: (state, action) => {
+            state.allItems = action.payload.items
         }
     }
 })
+
+export const fetchItems = () => {
+    return async(dispatch) => {
+        let res  = await axios.
+            get('http://127.0.0.1:3000/api/v1/products')
+        const { data } = res
+        console.log(res)
+        const allItems = data.map(item => {
+            return {
+                name: item.name,
+                category: item.category,
+                price: item.price,
+                image: item.image,
+                id: item._id,
+                quantity: 0,
+            }
+        })
+        dispatch(getItems({items: allItems}))
+    }
+}
+
+export const createItem = (item) => {
+    return async(dispatch) => {
+        let res  = await axios.
+            post('http://127.0.0.1:3000/api/v1/products', item)
+        if(res.status == 201) {
+            dispatch(fetchItems())
+        }
+    }
+}
+
+export const updateItem = (id, item) => {
+    return async(dispatch) => {
+        console.log("id: ", id)
+        console.log("item: ", item)
+        let res  = await axios.
+            put(`http://127.0.0.1:3000/api/v1/products/${id}`, item)
+        if(res.status == 200) {
+            dispatch(fetchItems())
+        }
+    }
+}
+
+export const deleteItem = (id) => {
+    return async(dispatch) => {
+        let res  = await axios.
+            delete(`http://127.0.0.1:3000/api/v1/products/${id}`)
+        if(res.status == 200) {
+            dispatch(fetchItems())
+        }
+    }
+}
 
 export const { 
     addToCart, 
@@ -122,7 +127,8 @@ export const {
     deleteItemFromCart,
     addNewItem,
     deleteItemFromItems,
-    editItem
+    editItem,
+    getItems
 } = itemSlice.actions
 
 export default itemSlice.reducer

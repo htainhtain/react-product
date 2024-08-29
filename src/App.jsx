@@ -1,8 +1,9 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Cart from './components/cart/Cart';
 import ItemCard from './components/itemCard/ItemCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NewItem from './components/NewItem/NewItem';
+import { fetchItems } from './store/itemSlice';
 
 function App() {
   const allItems = useSelector(state => state.item.allItems)
@@ -10,6 +11,11 @@ function App() {
   const handleAddDessert = () => {
     newDesertModal.current.open()
   }
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchItems())
+  }, [])
 
   return (
     <>

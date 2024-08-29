@@ -6,7 +6,7 @@ import {
     addToCart, 
     incrementQuantity, 
     decrementQuantity,
-    deleteItemFromItems
+    deleteItem
 } from '../../store/itemSlice';
 import { RxCrossCircled } from "react-icons/rx";
 import { TbEditCircle } from "react-icons/tb";
@@ -40,7 +40,7 @@ const ItemCard = ({
     }
 
     const handleDeleteItemFromItems = () => {
-        dispatch(deleteItemFromItems({"id": id}))
+        dispatch(deleteItem(id))
     }
 
     const handleEditItem = () => {
