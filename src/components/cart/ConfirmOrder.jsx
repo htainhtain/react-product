@@ -1,28 +1,15 @@
 import { CiCircleCheck } from "react-icons/ci";
 
-import { createPortal } from "react-dom"
-import { forwardRef, useImperativeHandle, useRef } from "react"
+import { forwardRef } from "react"
 import ConfirmOrderItem from "./ConfirmOrderItem";
 import { useSelector } from "react-redux";
+import Dialog from "../Dialog/Dialog";
 
 const ConfirmOrder = forwardRef(({resetCart}, ref) => {
     const selectedItems = useSelector(state => state.item.selectedItems)
     const totalPrice = useSelector(state => state.item.totalPrice)
-    const dialog  = useRef()
-
-    useImperativeHandle(ref, () => {
-        return {
-            open() {
-                dialog.current.showModal()
-            },
-            close() {
-                dialog.current.close()
-            }
-        }
-    })
-
-    return createPortal(
-        <dialog ref={dialog} className='py-5 max-md:m-0 w-[35%] min-w-[400px] max-md:w-full max-md:max-w-full max-md:fixed max-md:top-auto max-md:bottom-0 rounded-t-2xl'>
+    return (
+        <Dialog ref={ref}>
             <div className='container'>
                 <CiCircleCheck className='text-[3rem] text-green-500 font-extrabold'/>
                 <h3 className='text-[2.5rem] font-bold leading-11 text-rose900'>Order <br />Confirmed</h3>
@@ -46,8 +33,7 @@ const ConfirmOrder = forwardRef(({resetCart}, ref) => {
                     Start New Order
                 </button>
             </div>
-        </dialog>,
-        document.querySelector('#modal')
+        </Dialog>
     )
 })
 

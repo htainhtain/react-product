@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 const CartItem = ({ cartItem }) => {
     const dispatch = useDispatch()
     const deleteItem = () => {
-        dispatch(deleteItemFromCart({"name": cartItem.name}))
+        dispatch(deleteItemFromCart({"id": cartItem.id}))
     }
 
     return (
