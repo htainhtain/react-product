@@ -1,11 +1,9 @@
 import { useRef } from 'react';
 import Cart from './components/cart/Cart';
-import ItemCard from './components/itemCard/ItemCard';
-import { useSelector } from 'react-redux';
 import NewItem from './components/NewItem/NewItem';
+import Items from './components/itemCard/Items';
 
 function App() {
-  const allItems = useSelector(state => state.item.allItems)
   const newDesertModal = useRef()
   const handleAddDessert = () => {
     newDesertModal.current.open()
@@ -24,17 +22,10 @@ function App() {
                 onClick={handleAddDessert}
               >
                 Add Dessert
-              </button>          
+              </button>  
         </div>
-            <ul className='items-grid'>
-              {
-                allItems.map(item => <ItemCard 
-                  key={item.id} 
-                  {...item}
-                />)
-              }
-            </ul>
-          </section>
+          <Items />
+          </section>        
           <section id='cart'>
             <Cart />
           </section>

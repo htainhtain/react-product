@@ -17,7 +17,7 @@ const Cart = () => {
     const isCartEmpty = selectedItems.length === 0
     const quantity = selectedItems.reduce((acc, currenItem) => acc + currenItem.quantity, 0)
 
-    const items = selectedItems.map(item => <CartItem key={Math.random()} cartItem={item} />)
+    const items = selectedItems.map(item => <CartItem key={item.id} cartItem={item} />)
 
     const handleOpenModal = () => {
         modal.current.open()

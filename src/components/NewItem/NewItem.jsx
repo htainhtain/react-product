@@ -7,7 +7,7 @@ import { addNewItem } from "../../store/itemSlice";
 const NewItem = forwardRef(({}, ref) => {
     const dispatch = useDispatch()
 
-
+    
     const nameRef = useRef()
     const categoryRef = useRef()
     const priceRef = useRef()

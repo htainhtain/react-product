@@ -63,6 +63,7 @@ const itemSlice = createSlice({
         resetCart: () => initialState,
         addNewItem: (state, action) => {
             const payload = action.payload
+            const id = state.allItems[state.allItems.length - 1] ? state.allItems[state.allItems.length - 1].id + 1 : 1
             const newItem = {
                 "image": {
                     "thumbnail": payload.thumbnail,
@@ -74,7 +75,7 @@ const itemSlice = createSlice({
                "category": payload.category,
                "price": payload.price,
                "quantity": 0,
-               "id": state.allItems[state.allItems.length - 1] ? state.allItems[state.allItems.length - 1].id++ : 1
+               "id": id
             }
 
             state.allItems.push(newItem)
